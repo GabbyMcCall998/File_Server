@@ -1,0 +1,36 @@
+.Hero{
+    height: 100vh;
+    background: linear-gradient(180deg, #fde1ff, #e1ffea22 60%);
+    display: flex;
+}
+
+.Hero-message h1{
+    color: #090909;
+    font-size: 25px;
+    font-weight: 600;
+    text-align: left;
+    margin-bottom: 5px;
+    margin-left: 25px;
+}
+
+.Hero-message p{
+    color: #171717;
+  font-size: 50px;
+  font-weight: 700;
+  margin-top: 10px;
+  margin-bottom: 10px;
+  padding-left: 0px;
+  text-align: left;
+  margin-left: 25px;
+}
+
+.About-text{
+    margin-top: 90px;
+}
+
+.About-text p{
+    font-size: 25px;
+}
+
+
+

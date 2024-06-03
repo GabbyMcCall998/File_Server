@@ -1,0 +1,16 @@
+.carousel-text{
+    background: linear-gradient(180deg, #ec9ff1, #e1ffea22 60%);
+    height: 80vh;
+    text-align: center;
+}
+
+.carousel-text h2{
+    font-size: 40px;
+}
+
+.carousel-text p{
+    font-size: 30px;
+}
+
+
+
