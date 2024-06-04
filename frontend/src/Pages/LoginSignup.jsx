@@ -12,8 +12,8 @@ const LoginSignup = () => {
     event.preventDefault();
     try {
       const response = isLogin
-        ? await axios.post('http://localhost:3001/login', { email, password })
-        : await axios.post('http://localhost:3001/signup', { email, password });
+        ? await axios.post('http://localhost:5000/auth/login', { email, password })
+        : await axios.post('http://localhost:5000/auth/signup', { email, password });
 
       const token = response.data.token;
       localStorage.setItem('token', token); // Store token for authenticated requests
@@ -56,7 +56,7 @@ const LoginSignup = () => {
             </>
           ) : (
             <>
-              Already have an account?
+              Already have an account???
               <br />
               <Link to="/login" style={{ textDecoration: 'none' }} onClick={() => setIsLogin(true)}>
                 Log In
