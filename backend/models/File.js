@@ -4,9 +4,13 @@ const Schema = mongoose.Schema;
 const fileSchema = new Schema({
   title: { type: String, required: true },
   description: { type: String },
-  download_url: { type: String, required: true },
+  file_download_url: { type: String, required: true },
+  category: { type: String, required: true }, 
   created_at: { type: Date, default: Date.now },
-  admin_id: { type: Schema.Types.ObjectId, ref: 'User', required: true }
+  downloads: { type: Number, default: 0 },   // Track the number of downloads
+  emails_sent: { type: Number, default: 0 }  // tracks the number of emails
 });
 
+
 module.exports = mongoose.model('File', fileSchema);
+
