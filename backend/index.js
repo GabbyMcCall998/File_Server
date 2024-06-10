@@ -13,8 +13,10 @@ app.use(cors())
 
 app.use("/auth", auth);0
 
+
 // Dataabase Connection with MongoDB
 mongoose.connect("mongodb+srv://gabrielandoh998:Godneverfails998@cluster0.qqwl67e.mongodb.net/File_Server")
+
 
 
 // File Storage engine
@@ -29,7 +31,7 @@ const storage= multer.diskStorage({
 //creating the upload function
 const upload = multer({storage:storage})
 
-// Creating upload endpoint
+// Creating upload endpoint(ADMIN)
 app.use('/files', express.static('upload/files'));
 app.post("/upload", upload.single('record'), (req, res) => {
     // Handle error if file upload fails
@@ -49,10 +51,27 @@ app.post("/upload", upload.single('record'), (req, res) => {
 });
 
 
-//Endpoint for adding files to db
+
+
+
+
+//Endpoint for adding files to db ()
 app.post('/addfile', async (req, res) => {
+    let id;
+  // Determine the next ID by finding the latest file and incrementing its ID
+  try {
+    const lastFile = await File.findOne().sort({ id: -1 }).exec();
+    id = lastFile ? lastFile.id + 1 : 1;
+  } catch (error) {
+    console.error('Error finding last file:', error);
+    return res.status(500).json({ success: false, message: 'Failed to determine the new file ID' });
+  }
+
+
+    // Create and save the new file document
     try {
         const newFile = new File({
+            id:id,
             title: req.body.title,
             description: req.body.description,
             category: req.body.category,
@@ -62,7 +81,7 @@ app.post('/addfile', async (req, res) => {
          console.log(newFile)
         await newFile.save();
 
-        console.log("File saved successfully");
+        console.log("File saved successfully"); 
 
         res.json({
             success: true,
@@ -73,6 +92,32 @@ app.post('/addfile', async (req, res) => {
         res.status(500).json({ success: false, message: "Failed to add file to database" });
     }
 });
+
+
+
+
+
+
+
+// Endpoint for Deleting files (ADMIN)
+app.post('/removefile',async(req,res)=>{
+    await File.findOneAndDelete({id:req.body.id});
+    console.log("removed")
+    res.json({
+        success:true, 
+        title:req.body.name
+    })
+})
+
+
+
+// Creating API for getting all files (for Admin)
+app.get('/allfiles' , async(req,res)=>{
+    let newFile = await File.find({});
+    console.log("All products Fetched");
+    res.send(newFile)
+})
+
 
 
 
