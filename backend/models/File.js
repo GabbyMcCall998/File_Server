@@ -6,6 +6,7 @@ const fileSchema = new Schema({
   title: { type: String, required: true },
   description: { type: String },
   file_download_url: { type: String, required: true },
+  thumbnail_url: {type:String},
   category: { type: String, required: true },
   created_at: { type: Date, default: Date.now },
   downloads: { type: Number, default: 0 }, // Track the number of downloads
