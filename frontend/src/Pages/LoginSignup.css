@@ -122,3 +122,7 @@
     height: 75vh;
   }
   
+
+  .error{
+    color: red;
+  }

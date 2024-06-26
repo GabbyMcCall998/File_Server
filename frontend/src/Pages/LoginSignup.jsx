@@ -1,4 +1,4 @@
-import { useState } from "react";
+import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import axios from "axios";
 import './LoginSignup.css';
@@ -6,29 +6,57 @@ import './LoginSignup.css';
 const LoginSignup = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const [isLogin, setIsLogin] = useState(true); // State to toggle between login and signup
+  const [error, setError] = useState('');
+  const [loading, setLoading] = useState(false);
 
   const handleSubmit = async (event) => {
     event.preventDefault();
-    try {
-      const response = isLogin
-        ? await axios.post('http://localhost:5000/auth/login', { email, password })
-        : await axios.post('http://localhost:5000/auth/signup', { email, password });
+    setLoading(true);
+    setError(''); // Clear previous errors
 
+    try {
+      const response = await axios.post('http://localhost:5000/login', { email, password });
       const token = response.data.token;
-      localStorage.setItem('token', token); // Store token for authenticated requests
-      alert(`${isLogin ? 'Login' : 'Signup'} successful`);
+      localStorage.setItem('token', token);
+      window.location.replace("/document");
     } catch (error) {
-      console.error(error.response.data.errors);
-      alert(`${isLogin ? 'Login' : 'Signup'} failed`);
+      console.error('Login Error:', error); // Log the error for debugging
+      
+      if (error.response) {
+        // The request was made and the server responded with a status code outside the 2xx range
+        console.error('Response Data:', error.response.data);
+        console.error('Response Status:', error.response.status);
+        console.error('Response Headers:', error.response.headers);
+        
+        if (error.response.data && error.response.data.errors) {
+          setError(error.response.data.errors[0].msg);
+        } else if (error.response.data && error.response.data.message) {
+          setError(error.response.data.message);
+        } else if (error.response.status === 400) {
+          setError("Bad Request: Please check your input and try again.");
+        } else if (error.response.status === 401) {
+          setError("Unauthorized: Incorrect email or password.");
+        } else {
+          setError("Login failed. Please try again.");
+        }
+      } else if (error.request) {
+        // The request was made but no response was received
+        console.error('Request Data:', error.request);
+        setError("No response from server. Please try again later.");
+      } else {
+        // Something happened in setting up the request that triggered an Error
+        console.error('Error Message:', error.message);
+        setError("Error occurred while setting up the request. Please try again.");
+      }
+    } finally {
+      setLoading(false);
     }
   };
 
   return (
     <div className="yoga">
       <form onSubmit={handleSubmit}>
-        <h3>{isLogin ? 'Login' : 'Sign Up'} Here</h3>
-
+        <h3>Login Here</h3>
         <input
           type="email"
           placeholder="Email"
@@ -36,7 +64,6 @@ const LoginSignup = () => {
           onChange={(e) => setEmail(e.target.value)}
           required
         />
-
         <input
           type="password"
           placeholder="Password"
@@ -44,36 +71,21 @@ const LoginSignup = () => {
           onChange={(e) => setPassword(e.target.value)}
           required
         />
-
+        {error && <p className="error">{error}</p>}
         <p>
-          {isLogin ? (
-            <>
-              Don't have an account?
-              <br />
-              <Link to="/signup" style={{ textDecoration: 'none' }} onClick={() => setIsLogin(false)}>
-                Sign Up
-              </Link>
-            </>
-          ) : (
-            <>
-              Already have an account???
-              <br />
-              <Link to="/login" style={{ textDecoration: 'none' }} onClick={() => setIsLogin(true)}>
-                Log In
-              </Link>
-            </>
-          )}
+          Don't have an account?
+          <br />
+          <Link to="/signup" style={{ textDecoration: 'none' }}>
+            Sign Up
+          </Link>
         </p>
-
-        <button type="submit" className="sign">
-          {isLogin ? 'Log In' : 'Sign Up'}
+        <Link to="/forgot-password" style={{textDecoration:'red'}}>
+        forgot password
+        </Link>
+        
+        <button type="submit" className="sign" disabled={loading}>
+          {loading ? 'Logging In...' : 'Log In'}
         </button>
-
-        {isLogin && (
-          <label htmlFor="password" className="forgot">
-            Forgot Password
-          </label>
-        )}
       </form>
     </div>
   );
