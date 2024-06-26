@@ -27,7 +27,11 @@ const Navbar = () => {
             </div>
             </ul>
             <div className='login-button'>
-                <Link to='/login' ><button>Login</button></Link>
+                {localStorage.getItem('token') ?
+                <button onClick={() => { localStorage.removeItem('token'); window.location.replace("/"); }}>Logout</button>
+                :<Link to='/login'><button>Login</button></Link>
+                }
+
             </div>
         </div>
     );
