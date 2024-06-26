@@ -92,8 +92,12 @@
   }
   
   .sign:hover{
-    background-color: #968af1;
+    background-color: #090716;
     color: white;
+  }
+
+  .sign:active{
+    background-color: black;
   }
   
   .Log:hover{
