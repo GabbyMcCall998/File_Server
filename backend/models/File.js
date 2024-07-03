@@ -8,8 +8,9 @@ const fileSchema = new Schema({
   file_download_url: { type: String, required: true },
   category: { type: String, required: true },
   created_at: { type: Date, default: Date.now },
-  downloads: { type: Number, default: 0 }, // Track the number of downloads
-  emails_sent: { type: Number, default: 0 } // Track the number of emails
+  downloads: { type: Number, default: 0 },          
+  email_sent_count: { type: Number, default: 0 },    
+  file_path: { type: String, required: true } 
 });
 
 
