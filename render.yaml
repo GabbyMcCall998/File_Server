@@ -1,0 +1,37 @@
+services:
+  - type: web
+    name: my-file-server-api
+    env: node
+    plan: free
+    buildCommand: npm install
+    startCommand: npm start
+    rootDir: backend
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: JWT_SECRET
+        value: tehvlydgukjhyukjbh
+      - key: Server_Url
+        value: http://localhost:5000/
+      - key: BASE_URL
+        value: http://localhost:3000/
+      - key: HOST
+        value: smtp.gmail.com
+      - key: SERVICE
+        value: gmail
+      - key: EMAIL_PORT
+        value: '587'
+      - key: SECURE
+        value: 'false'
+      - key: USER
+        value: gabrielandoh998@gmail.com
+      - key: PASS
+        value: ybrxhlxciuhmljeo
+      - key: MONGODB_URI
+        value: mongodb+srv://gabrielandoh998:Godneverfails998@cluster0.qqwl67e.mongodb.net/File_Server
+
+  - type: static
+    name: my-file-server
+    buildCommand: npm run build
+    publishPath: build
+    rootDir: frontend
