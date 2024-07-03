@@ -33,5 +33,5 @@ services:
   - type: web
     name: my-file-server
     buildCommand: npm run build
-    publishPath: build
+    publishPath: ./build
     rootDir: frontend/build
