@@ -1,6 +1,6 @@
 services:
   - type: web
-    name: my-file-server-api
+    name: my-file-server-app-api
     env: node
     plan: free
     buildCommand: npm install
@@ -31,7 +31,7 @@ services:
         value: mongodb+srv://gabrielandoh998:Godneverfails998@cluster0.qqwl67e.mongodb.net/File_Server
 
   - type: web
-    name: my-file-server
+    name: my-file-server-app
     runtime: static
     buildCommand: npm run build
     staticPublishPath: ./build  
