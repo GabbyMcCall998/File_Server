@@ -30,7 +30,7 @@ services:
       - key: MONGODB_URI
         value: mongodb+srv://gabrielandoh998:Godneverfails998@cluster0.qqwl67e.mongodb.net/File_Server
 
-  - type: static-site
+  - type: static site
     name: my-file-server
     buildCommand: npm run build
     publishPath: build
