@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import axios from 'axios';
 import { useParams } from 'react-router-dom';
 import { Link } from 'react-router-dom';
+import './VerifyEmailPage.css'
 
 const VerifyEmailPage = () => {
     const [message, setMessage] = useState('');
@@ -18,7 +19,7 @@ const VerifyEmailPage = () => {
             console.log('Extracted Vtoken:', Vtoken);
 
             try {
-                const response = await axios.get(`http://localhost:5000/verify-email/${id}/verify/${Vtoken}`);
+                const response = await axios.get(`http://localhost:5000/auth/verify-email/${id}/verify/${Vtoken}`);
                 if (response.data.message) {
                     setMessage(response.data.message);
                     setVerified(true); // Mark as verified to prevent further requests
@@ -27,7 +28,6 @@ const VerifyEmailPage = () => {
                 }
             } catch (error) {
                 console.error('Error during email verification:', error);
-                setError('Failed to verify email. Please try again.');
             }
         };
 

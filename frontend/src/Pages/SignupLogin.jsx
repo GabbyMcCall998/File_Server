@@ -1,23 +1,24 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
 import axios from "axios";
-import './LoginSignup.css';
+import './SignupLogin.css';
 
 const Signup = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
   const [msg, setMsg] = useState('');
+  const role='user'  // Default to 'user'
   const [loading, setLoading] = useState(false);
 
   const handleSubmit = async (event) => {
     event.preventDefault();
-    setLoading(true); // Set loading state to true
-    setError(''); // Clear any previous error messages
-    setMsg(''); // Clear any previous success messages
+    setLoading(true); 
+    setError(''); 
+    setMsg(''); 
 
     try {
-      const response = await axios.post('http://localhost:5000/signup', { email, password });
+      const response = await axios.post('http://localhost:5000/auth/signup', { email, password, role });
       setMsg(response.data.message);
       setEmail(''); // Clear email input
       setPassword(''); // Clear password input

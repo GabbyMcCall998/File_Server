@@ -1,0 +1,52 @@
+.search-results {
+    padding: 20px;
+}
+
+.file-results {
+    list-style: none;
+    padding: 0;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 20px;
+}
+
+.file-results li {
+    border: 1px solid #ddd;
+    padding: 15px;
+    border-radius: 5px;
+    background-color: #f9f9f9;
+}
+
+.file-results li h2 {
+    margin-top: 0;
+}
+
+.file-results li p {
+    margin: 10px 0;
+}
+
+.file-results li a {
+    display: inline-block;
+    margin-top: 10px;
+    color: #007bff;
+    text-decoration: none;
+}
+
+.file-results li a:hover {
+    text-decoration: underline;
+}
+
+.file-results li button {
+  padding: 10px;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.file-results li button:hover {
+  background-color: #0056b3;
+}
+

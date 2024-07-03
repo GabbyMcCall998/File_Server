@@ -12,7 +12,7 @@ const ResetPassword = () => {
     const handleSubmit = async (event) => {
         event.preventDefault();
         try {
-            const response = await axios.post(`http://localhost:5000/reset-password/${id}/${token}`, { password });
+            const response = await axios.post(`http://localhost:5000/auth/reset-password/${id}/${token}`, { password });
             setMessage(response.data.status);
             setError('');
         } catch (error) {
