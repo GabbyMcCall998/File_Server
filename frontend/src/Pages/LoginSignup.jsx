@@ -3,8 +3,6 @@ import { Link } from "react-router-dom";
 import axios from "axios";
 import './LoginSignup.css';
 
-
-
 const LoginSignup = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -21,15 +19,12 @@ const LoginSignup = () => {
       const { token, role } = response.data;
 
       localStorage.setItem('token', token);
-      localStorage.setItem('token',role)
+      localStorage.setItem('role', role);
 
-
-
-      // Store adminToken if role is admin
       if (role === 'admin') {
-        window.location.href = '/admin/*'; // Redirect to Addfile component for admin
+        window.location.href = '/admin'; // Redirect to admin dashboard
       } else {
-        window.location.href = '/document'; // Redirect to document page for regular users
+        window.location.href = '/document'; // Redirect to user document page
       }
     } catch (error) {
       console.error('Login Error:', error);
@@ -39,7 +34,7 @@ const LoginSignup = () => {
         if (status === 401) {
           setError("Unauthorized: Incorrect email or password.");
         } else {
-          setError(data.message || "Login failed. Please try again.");
+          setError(data.error || "Login failed. Please try again.");
         }
       } else {
         setError("Error occurred while logging in. Please try again.");
@@ -78,7 +73,6 @@ const LoginSignup = () => {
         <Link to="/forgot-password" style={{ textDecoration: 'none', color: 'red' }}>
           Forgot Password
         </Link>
-        
         <button type="submit" className="sign" disabled={loading}>
           {loading ? 'Logging In...' : 'Log In'}
         </button>
