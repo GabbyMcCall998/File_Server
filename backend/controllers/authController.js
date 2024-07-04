@@ -104,9 +104,14 @@ exports.AdminSignup = async (req, res) => {
 
 
 //Login Endpoint
-exports.login= async (req, res) => {
+exports.login = async (req, res) => {
   try {
     const { email, password } = req.body;
+
+    if (!email || !password) {
+      return res.status(400).send({ error: 'Email and password are required' });
+    }
+
     const user = await User.findOne({ email });
 
     if (!user) {
@@ -119,7 +124,7 @@ exports.login= async (req, res) => {
       return res.status(401).send({ error: 'Login failed! Check authentication credentials' });
     }
 
-    const token = await user.generateAuthToken();
+    const token = jwt.sign({ userId: user._id, role: user.role }, process.env.JWT_SECRET, { expiresIn: '1h' });
     const response = { token, role: user.role };
 
     if (user.role === 'admin') {
@@ -128,10 +133,10 @@ exports.login= async (req, res) => {
 
     res.send(response);
   } catch (error) {
-    res.status(400).send(error);
+    console.error(error); // Log the error for debugging
+    res.status(400).send({ error: 'An error occurred while processing your request' });
   }
-}
-
+};
 
 
 exports.verifyEmail=async (req, res) => {
