@@ -35,10 +35,9 @@ const VerifyEmailPage = () => {
     }, [id, Vtoken, verified]); // Include verified in dependency array
 
     return (
-        <div>
-            <p>Verification process:</p>
-            {message && <p>{message}</p>}
-            {error && <p>{error}</p>}
+        <div className='container'>
+            {message && <p className='success-message'>{message}</p>}
+            {error && <p className='error-message'>{error}</p>}
             {message && (
                 <p>
                     You can now <Link to="/login">login</Link>.
