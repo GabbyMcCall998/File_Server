@@ -84,13 +84,40 @@ try {
 
 // Endpoint for removing files
 exports.removeFile = async (req, res) => {
-    await File.findOneAndDelete({id:req.body.id});
-    console.log("Removed")
-    res.json({
-        success:true,
-        title:req.body.title
-    })
-}
+    try {
+        const file = await File.findOneAndDelete({ id: req.body.id });
+        if (!file) {
+            return res.status(404).json({
+                success: false,
+                message: 'File not found'
+            });
+        }
+
+        // Deleting the file from the file system
+        const filePath = path.join(__dirname, '../', file.file_path);
+        fs.unlink(filePath, (err) => {
+            if (err) {
+                console.error('Error deleting file from file system:', err);
+                return res.status(500).json({
+                    success: false,
+                    message: 'Failed to delete file from file system'
+                });
+            }
+
+            console.log('Removed');
+            res.json({
+                success: true,
+                title: req.body.title
+            });
+        });
+    } catch (error) {
+        console.error('Error removing file:', error);
+        res.status(500).json({
+            success: false,
+            message: 'Failed to remove file'
+        });
+    }
+};
 
 
 //Endpoint for Getting all files
