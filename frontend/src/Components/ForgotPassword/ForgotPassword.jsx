@@ -1,27 +1,37 @@
 import React, { useState } from 'react';
 import axios from 'axios';
-import './ForgotPassword.css'
-
+import './ForgotPassword.css';
 
 const ForgotPassword = () => {
     const [email, setEmail] = useState('');
     const [message, setMessage] = useState('');
     const [error, setError] = useState('');
+    const [loading, setLoading] = useState(false);
 
     const handleSubmit = async (event) => {
         event.preventDefault();
+        setLoading(true);
+
         try {
+            // Example: Basic email validation (adjust as per your requirements)
+            if (!email.includes('@')) {
+                throw new Error('Please enter a valid email address.');
+            }
+
             const response = await axios.post('http://localhost:5000/auth/forgot-password', { email });
             setMessage(response.data.status);
             setError('');
+            setEmail('');
         } catch (error) {
-            setError('Failed to send password reset link. Please try again.');
+            setError(error.response?.data?.message || 'Failed to send password reset link. Please try again.');
             setMessage('');
+        } finally {
+            setLoading(false);
         }
     };
 
     return (
-        <div>
+        <div className='container'>
             <h3>Forgot Password</h3>
             <form onSubmit={handleSubmit}>
                 <input
@@ -31,10 +41,12 @@ const ForgotPassword = () => {
                     onChange={(e) => setEmail(e.target.value)}
                     required
                 />
-                <button type="submit">Send Reset Link</button>
+                <button className='reset' type="submit" disabled={loading}>
+                    {loading ? 'Sending Link...' : 'Send Link'}
+                </button>
             </form>
-            {message && <p>{message}</p>}
-            {error && <p>{error}</p>}
+            {message && <p className={error ? 'success' : ''}>{message}</p>}
+            {error && <p className="error">{error}</p>}
         </div>
     );
 };
