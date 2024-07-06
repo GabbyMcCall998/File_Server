@@ -15,8 +15,8 @@ import SendFileViaEmail from './Pages/SendFileViaEmail';
 import SearchResults from './Components/SearchResults/SearchResults';
 import Addfile from './admin/Addfile/Addfile';
 import Listfile from './admin/Listfile/Listfile';
+import AdminSignup from './admin/AdminSignup/AdminSignup';
 import Sidebar from './admin/Sidebar/Sidebar';
-import AdminSignup from './admin/AdminSignup';
 
 function App() {
   return (
@@ -32,12 +32,12 @@ function App() {
           <Route path='/forgot-password' element={<ForgotPassword />} />
           <Route path='/reset-password/:id/:token' element={<ResetPassword />} />
           <Route path='/sendfileform/:fileId' element={<SendFileViaEmail />} />
-          <Route path='/search' element={<SearchResults />} />
+          <Route path='/search' element={<ProtectedRoute><SearchResults/></ProtectedRoute>} />
           <Route path='/document' element={<ProtectedRoute><Document /></ProtectedRoute>} />
-          <Route path='/admin/addfile' element={<Addfile />} />
-          <Route path='/admin/listfile' element={<Listfile />} />
+          <Route path='/addfile' element={<Addfile />} />
+          <Route path='/listfile' element={<Listfile />} />
           <Route path='/admin/signup' element={<AdminSignup />} />
-          <Route path='/admin/*' element={<AdminHomePage />} /> {/* Render Sidebar for Admin routes */}
+          <Route path='/admin/*' element={<Sidebar/>} /> 
         </Routes>
         <Footer />
       </BrowserRouter>
@@ -45,15 +45,5 @@ function App() {
   );
 }
 
-const AdminHomePage = () => (
-  <div className="admin-container">
-    <Sidebar />
-    <div className="admin-content">
-      <Routes>
-       
-      </Routes>
-    </div>
-  </div>
-);
 
 export default App;
