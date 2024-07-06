@@ -89,7 +89,7 @@ const SearchResults = () => {
         <div className='search-results'>
             <h1>Search Results for "{query}"</h1>
             {error ? (
-                <p>{error}</p>
+                <p className='error'>{error}</p>
             ) : (
                 <ul className='file-results'>
                     {results.map(file => (
