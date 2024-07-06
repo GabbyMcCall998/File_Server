@@ -23,7 +23,7 @@ const SearchBar = () => {
                 onChange={(e) => setQuery(e.target.value)}
                 placeholder="Search..."
             />
-            <button onClick={handleSearch}>Search</button>
+            <button  onClick={handleSearch}>Search</button>
         </div>
     );
 };

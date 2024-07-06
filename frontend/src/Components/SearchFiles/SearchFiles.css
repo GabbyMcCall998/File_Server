@@ -1,6 +1,7 @@
 .search-container button{
     width: 160px;
     height: 40px;
+    margin-left: -30px;
     outline: none;
     border: 1px solid #7a7a7a;
     border-radius: 75px;
