@@ -22,7 +22,7 @@ const LoginSignup = () => {
       localStorage.setItem('role', role);
 
       if (role === 'admin') {
-        window.location.href = '/admin'; // Redirect to admin dashboard
+        window.location.href = '/'; // Redirect to home
       } else {
         window.location.href = '/document'; // Redirect to user document page
       }
