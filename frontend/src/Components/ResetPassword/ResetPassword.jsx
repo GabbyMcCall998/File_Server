@@ -1,4 +1,4 @@
-import './ResetPassword.css'
+import './ResetPassword.css';
 import React, { useState } from 'react';
 import axios from 'axios';
 import { useParams } from 'react-router-dom';
@@ -7,22 +7,33 @@ const ResetPassword = () => {
     const [password, setPassword] = useState('');
     const [message, setMessage] = useState('');
     const [error, setError] = useState('');
+    const [loading, setLoading] = useState(false);
     const { id, token } = useParams();
 
     const handleSubmit = async (event) => {
         event.preventDefault();
+        setLoading(true);
+
         try {
+            // Example: Basic password validation (adjust as per your requirements)
+            if (password.length < 8) {
+                throw new Error('Password length must be greater than 5 characters.');
+            }
+
             const response = await axios.post(`http://localhost:5000/auth/reset-password/${id}/${token}`, { password });
             setMessage(response.data.status);
             setError('');
+            setPassword('');
         } catch (error) {
-            setError('Failed to reset password. Please try again.');
+            setError(error.response?.data?.message || 'Failed to reset password. Please try again.');
             setMessage('');
+        } finally {
+            setLoading(false);
         }
     };
 
     return (
-        <div>
+        <div className='container1'>
             <h3>Reset Password</h3>
             <form onSubmit={handleSubmit}>
                 <input
@@ -32,10 +43,12 @@ const ResetPassword = () => {
                     onChange={(e) => setPassword(e.target.value)}
                     required
                 />
-                <button type="submit">Reset Password</button>
+                <button className='reset' type="submit" disabled={loading}>
+                    {loading ? 'Resetting Password...' : 'Reset Password'}
+                </button>
             </form>
-            {message && <p>{message}</p>}
-            {error && <p>{error}</p>}
+            {message && <p className={error ? 'success' : ''}>{message}</p>}
+            {error && <p className="error">{error}</p>}
         </div>
     );
 };
